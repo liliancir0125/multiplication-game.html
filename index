@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rumi 學習大廳</title>
+    <style>
+        :root {
+            --pink: #FFD1DC;
+            --blue: #BFEAF2;
+            --yellow: #FFF4BD;
+            --text-color: #7B5E57;
+            --bg-color: #FFFBFA;
+        }
+
+        html, body {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            overflow: hidden; 
+            background-color: var(--bg-color);
+            font-family: "Microsoft JhengHei", sans-serif;
+        }
+
+        .portal-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: white;
+            border-bottom: 4px solid var(--pink);
+            padding: 15px 10px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .header h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+            display: inline-block;
+            background: var(--yellow);
+            padding: 5px 25px;
+            border-radius: 30px;
+            border: 2px dashed #FFB7C5;
+            color: var(--text-color);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .menu-btn {
+            flex: 1;
+            min-width: 110px;
+            padding: 12px 8px;
+            border: none;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--text-color);
+            box-shadow: 0 4px 0px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-spell { background-color: var(--pink); }
+        .btn-bubble { background-color: var(--blue); }
+        .btn-math { background-color: #FFDFD3; } /* 稍微深一點的粉橘，區隔按鈕 */
+
+        .active {
+            outline: 3px solid #7B5E57;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0px rgba(0,0,0,0.1);
+            background-color: white !important;
+        }
+
+        .game-area {
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+        }
+
+        iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #FFB7C5;
+            text-align: center;
+        }
+
+        /* 版本號 */
+        .version-info {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 11px;
+            color: var(--text-color);
+            opacity: 0.5;
+            background: rgba(255,255,255,0.6);
+            padding: 2px 6px;
+            border-radius: 4px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="portal-wrapper">
+    <div class="header">
+        <h2>✨ Rumi 學習大廳</h2>
+        <div class="button-group">
+            <button class="menu-btn btn-spell" onclick="loadGame('https://liliancir0125.github.io/spell-game/spell_game.html', this)">
+                🔤 拼字遊戲
+            </button>
+            <button class="menu-btn btn-bubble" onclick="loadGame('https://liliancir0125.github.io/jp-bubble-game/', this)">
+                🫧 泡泡遊戲
+            </button>
+            <button class="menu-btn btn-math" onclick="loadGame('https://liliancir0125.github.io/Rumi_Study_Hall/math-adventure.html', this)">
+                ⚔️ 乘法大冒險
+            </button>
+        </div>
+    </div>
+
+    <div class="game-area">
+        <div id="welcome" class="welcome-screen">
+            <p style="font-size: 1.8rem; font-weight: bold;">Rumi 今天要玩哪一個？✨</p>
+            <span style="font-size: 5rem;">₍ᐢ.ˬ.ᐢ₎</span>
+        </div>
+        <iframe id="game-frame" src="" style="display:none;"></iframe>
+        <div class="version-info">Ver. 1.1.1</div>
+    </div>
+</div>
+
+<script>
+    function loadGame(url, btn) {
+        document.getElementById('welcome').style.display = 'none';
+        const frame = document.getElementById('game-frame');
+        frame.style.display = 'block';
+        frame.src = url;
+
+        const btns = document.querySelectorAll('.menu-btn');
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
