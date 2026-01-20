@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>吉伊卡哇九九乘法學習機</title>
+    <title>九九乘法大冒險</title>
     <style>
         :root {
             --pink: #ffb8d1;
@@ -187,6 +187,15 @@
             50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
             100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
         }
+
+        /* 版本號 */
+        .version-tag {
+            position: fixed;
+            bottom: 5px;
+            left: 5px;
+            font-size: 10px;
+            opacity: 0.4;
+        }
     </style>
 </head>
 <body>
@@ -213,8 +222,7 @@
             <option value="random">🌟 綜合大挑戰</option>
         </select>
 
-        <div class="display-area" id="displayArea">
-            </div>
+        <div class="display-area" id="displayArea"></div>
 
         <div id="reciteControls" class="nav-controls">
             <button class="nav-btn" onclick="prevStep()">上一個</button>
@@ -238,6 +246,7 @@
     </div>
 
     <div class="feedback" id="feedback"></div>
+    <div class="version-tag">Ver. 1.0.0</div>
 
     <script>
         let currentMode = 'recite';
@@ -257,7 +266,6 @@
 
         function speak(text) {
             if (isMuted) return;
-            // 修正發音：將「乘」改為「成」
             const fixedText = text.replace(/×/g, "成以").replace(/乘/g, "成");
             const utterance = new SpeechSynthesisUtterance(fixedText);
             utterance.lang = 'zh-TW';
@@ -279,8 +287,8 @@
                 osc.start(start);
                 osc.stop(start + 0.4);
             };
-            playNote(523.25, audioCtx.currentTime); // C5
-            playNote(783.99, audioCtx.currentTime + 0.15); // G5
+            playNote(523.25, audioCtx.currentTime);
+            playNote(783.99, audioCtx.currentTime + 0.15);
         }
 
         function switchMode(mode) {
@@ -308,9 +316,8 @@
         function renderRecite() {
             const display = document.getElementById('displayArea');
             const ans = currentNum * currentStep;
-            const text = `${currentNum} × ${currentStep} = ${ans}`;
             display.innerHTML = `<div>${currentNum} <span>×</span> ${currentStep} = ${ans}</div>`;
-            speak(text);
+            speak(`${currentNum} 乘 ${currentStep} 等於 ${ans}`);
         }
 
         function nextStep() {
@@ -345,54 +352,35 @@
         }
 
         function pressNum(n) {
-            if (n === 'C') {
-                userInput = "";
-            } else {
-                if (userInput.length < 2) {
-                    userInput += n;
-                    speak(n.toString());
-                }
-            }
+            if (n === 'C') { userInput = ""; }
+            else { if (userInput.length < 2) { userInput += n; speak(n.toString()); } }
             renderQuiz();
         }
 
         function checkAnswer() {
             const correct = quizA * quizB;
             const fb = document.getElementById('feedback');
-            
             if (parseInt(userInput) === correct) {
                 fb.innerText = "⭐ 答對了！";
                 fb.style.color = "var(--green)";
                 fb.className = "feedback pop";
-                
                 playDingDong();
                 setTimeout(() => speak("答對了"), 600);
                 setTimeout(() => {
                     const praise = praiseWords[Math.floor(Math.random() * praiseWords.length)];
                     speak(praise);
                 }, 1400);
-
-                setTimeout(() => {
-                    fb.className = "feedback";
-                    generateQuiz();
-                }, 2500);
+                setTimeout(() => { fb.className = "feedback"; generateQuiz(); }, 2500);
             } else {
                 fb.innerText = "❌ 再試一次";
                 fb.style.color = "var(--red)";
                 fb.className = "feedback pop";
                 speak("不對喔，再試一次");
-                setTimeout(() => {
-                    fb.className = "feedback";
-                    userInput = "";
-                    renderQuiz();
-                }, 1200);
+                setTimeout(() => { fb.className = "feedback"; userInput = ""; renderQuiz(); }, 1200);
             }
         }
 
-        // 初始化
-        window.onload = () => {
-            initGame();
-        };
+        window.onload = () => { initGame(); };
     </script>
 </body>
 </html>
