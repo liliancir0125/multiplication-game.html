@@ -18,12 +18,13 @@
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            font-family: "Microsoft JhengHei", sans-serif;
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
             color: var(--text);
         }
 
         body {
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             background-color: #fff9fb;
             background-image: radial-gradient(var(--pink) 1.5px, transparent 1.5px), 
                               radial-gradient(var(--blue) 1.5px, transparent 1.5px);
@@ -34,18 +35,19 @@
             min-height: 100vh;
         }
 
-        /* 選單列 */
-        .top-bar {
+        /* 頂部導覽列 */
+        .nav-header {
             width: 100%;
-            padding: 15px;
+            background: white;
+            padding: 10px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
             border-bottom: 3px solid var(--pink);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .back-home {
+        .btn-home {
             text-decoration: none;
             background: var(--yellow);
             padding: 8px 15px;
@@ -53,6 +55,9 @@
             font-weight: bold;
             font-size: 0.9rem;
             border: 2px solid var(--text);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .mode-selector {
@@ -63,62 +68,139 @@
         }
 
         .mode-tab {
-            padding: 5px 15px;
+            padding: 6px 15px;
             border-radius: 50px;
             border: none;
             background: transparent;
             font-weight: bold;
             cursor: pointer;
+            font-size: 0.9rem;
         }
 
-        .mode-tab.active { background: var(--white); }
+        .mode-tab.active {
+            background: var(--white);
+        }
 
-        /* 遊戲卡片 */
+        /* 遊戲主卡片 */
         .card {
             width: 90%;
             max-width: 400px;
             background: var(--white);
             border: 8px solid var(--yellow);
             border-radius: 40px;
-            padding: 25px;
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(255, 184, 209, 0.3);
+            margin-top: 20px;
         }
 
-        .display-area { font-size: 3.5rem; font-weight: bold; margin: 20px 0; }
-        .display-area span { color: var(--blue); }
-        .answer-box { border-bottom: 5px solid var(--pink); min-width: 60px; display: inline-block; }
+        .range-select {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 2px solid var(--pink);
+            font-size: 1rem;
+            outline: none;
+            background: white;
+        }
 
-        /* 虛擬按鍵 */
+        .display-area {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .display-area span { color: var(--blue); }
+        .answer-box {
+            display: inline-block;
+            min-width: 80px;
+            border-bottom: 5px solid var(--pink);
+            color: var(--pink);
+            margin-left: 10px;
+        }
+
+        /* 虛擬鍵盤 */
         .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 12px;
             width: 90%;
             max-width: 400px;
+            padding: 20px 10px;
         }
 
         .key {
-            background: white;
+            background: var(--white);
             border: 3px solid var(--blue);
-            border-radius: 20px;
+            border-radius: 25px;
             padding: 15px;
             font-size: 1.5rem;
             font-weight: bold;
-            box-shadow: 0 4px 0 var(--blue);
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--blue);
         }
 
-        .key:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--blue); }
-        .key.ok { background: var(--yellow); }
+        .key:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--blue); }
+        .key.special { background: var(--pink); border-color: #e0a0b8; box-shadow: 0 5px 0 #e0a0b8; color: white; }
+        .key.ok { background: var(--yellow); border-color: #f0e68c; box-shadow: 0 5px 0 #f0e68c; }
 
-        .version-tag { position: fixed; bottom: 5px; right: 10px; font-size: 10px; opacity: 0.4; }
+        .nav-controls {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .nav-btn {
+            background: var(--blue);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 0 #6eb5d8;
+        }
+
+        .feedback {
+            position: fixed;
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: bold;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 100;
+        }
+
+        .pop { animation: popAnim 0.8s ease-out forwards; }
+        @keyframes popAnim {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+        /* 版本號 */
+        .version-tag {
+            position: fixed;
+            bottom: 8px;
+            right: 12px;
+            font-size: 11px;
+            color: var(--text);
+            opacity: 0.5;
+            background: rgba(255,255,255,0.7);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <a href="https://liliancir0125.github.io/Rumi_Study_Hall/" class="back-home">🏠 回大廳</a>
+    <div class="nav-header">
+        <a href="https://liliancir0125.github.io/Rumi_Study_Hall/" class="btn-home">🏠 回大廳</a>
         <div class="mode-selector">
             <button class="mode-tab active" id="tab-recite" onclick="switchMode('recite')">背誦</button>
             <button class="mode-tab" id="tab-quiz" onclick="switchMode('quiz')">測驗</button>
@@ -126,7 +208,7 @@
     </div>
 
     <div class="card">
-        <select id="rangeSelect" onchange="initGame()" style="padding: 10px; border-radius: 10px;">
+        <select class="range-select" id="rangeSelect" onchange="initGame()">
             <option value="2">2 的乘法</option>
             <option value="3">3 的乘法</option>
             <option value="4">4 的乘法</option>
@@ -140,9 +222,9 @@
 
         <div class="display-area" id="displayArea"></div>
 
-        <div id="nav-btns">
-            <button onclick="prevStep()" style="padding: 10px 20px;">上一個</button>
-            <button onclick="nextStep()" style="padding: 10px 20px;">下一個</button>
+        <div id="reciteControls" class="nav-controls">
+            <button class="nav-btn" onclick="prevStep()">上一個</button>
+            <button class="nav-btn" onclick="nextStep()">下一個</button>
         </div>
     </div>
 
@@ -156,49 +238,87 @@
         <button class="key" onclick="pressNum(7)">7</button>
         <button class="key" onclick="pressNum(8)">8</button>
         <button class="key" onclick="pressNum(9)">9</button>
-        <button class="key" onclick="userInput=''">C</button>
+        <button class="key special" onclick="userInput='';renderQuiz()">C</button>
         <button class="key" onclick="pressNum(0)">0</button>
         <button class="key ok" onclick="checkAnswer()">OK</button>
     </div>
 
-    <div class="version-tag">Ver. 1.0.1</div>
+    <div class="feedback" id="feedback"></div>
+    <div class="version-tag">Ver. 1.0.2</div>
 
     <script>
-        // 這裡放入你原本的 JS 邏輯 (簡化版)
         let currentMode = 'recite';
-        let a = 2, b = 1, userInput = "";
+        let currentNum = 2;
+        let currentStep = 1;
+        let quizA = 2, quizB = 1;
+        let userInput = "";
 
-        function switchMode(m) {
-            currentMode = m;
-            document.getElementById('tab-recite').classList.toggle('active', m==='recite');
-            document.getElementById('tab-quiz').classList.toggle('active', m==='quiz');
-            document.getElementById('nav-btns').style.display = m==='recite' ? 'block' : 'none';
-            document.getElementById('keypad').style.display = m==='quiz' ? 'grid' : 'none';
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.getElementById('tab-recite').classList.toggle('active', mode === 'recite');
+            document.getElementById('tab-quiz').classList.toggle('active', mode === 'quiz');
+            document.getElementById('reciteControls').style.display = (mode === 'recite' ? 'flex' : 'none');
+            document.getElementById('keypad').style.display = (mode === 'quiz' ? 'grid' : 'none');
             initGame();
         }
 
         function initGame() {
-            let r = document.getElementById('rangeSelect').value;
-            a = r === 'random' ? Math.floor(Math.random()*8)+2 : parseInt(r);
-            b = 1; userInput = ""; render();
-        }
-
-        function render() {
-            let area = document.getElementById('displayArea');
-            if(currentMode === 'recite') {
-                area.innerHTML = `${a} <span>×</span> ${b} = ${a*b}`;
+            const range = document.getElementById('rangeSelect').value;
+            userInput = "";
+            if (currentMode === 'recite') {
+                if (range !== 'random') currentNum = parseInt(range);
+                currentStep = 1;
+                renderRecite();
             } else {
-                area.innerHTML = `${a} <span>×</span> ${b} = <span class="answer-box">${userInput||'?'}</span>`;
+                generateQuiz();
             }
         }
 
-        function nextStep() { if(b<9) b++; render(); }
-        function prevStep() { if(b>1) b--; render(); }
-        function pressNum(n) { userInput += n; render(); }
-        function checkAnswer() {
-            if(parseInt(userInput) === a*b) { alert("答對了！"); initGame(); }
-            else { alert("再試一次"); userInput = ""; render(); }
+        function renderRecite() {
+            const display = document.getElementById('displayArea');
+            display.innerHTML = `<div>${currentNum} <span>×</span> ${currentStep} = ${currentNum * currentStep}</div>`;
         }
+
+        function nextStep() {
+            if (currentStep < 9) { currentStep++; renderRecite(); }
+            else if (document.getElementById('rangeSelect').value === 'random') {
+                currentNum = Math.floor(Math.random() * 8) + 2;
+                currentStep = 1;
+                renderRecite();
+            }
+        }
+
+        function prevStep() { if (currentStep > 1) { currentStep--; renderRecite(); } }
+
+        function generateQuiz() {
+            const range = document.getElementById('rangeSelect').value;
+            quizA = (range === 'random') ? Math.floor(Math.random() * 8) + 2 : parseInt(range);
+            quizB = Math.floor(Math.random() * 9) + 1;
+            userInput = "";
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            const display = document.getElementById('displayArea');
+            display.innerHTML = `<div>${quizA} <span>×</span> ${quizB} = <span class="answer-box">${userInput || '?'}</span></div>`;
+        }
+
+        function pressNum(n) { if (userInput.length < 2) { userInput += n; renderQuiz(); } }
+
+        function checkAnswer() {
+            const correct = quizA * quizB;
+            const fb = document.getElementById('feedback');
+            if (parseInt(userInput) === correct) {
+                fb.innerText = "⭐ 答對了！"; fb.style.color = "var(--green)"; fb.className = "feedback pop";
+                setTimeout(() => { fb.className = "feedback"; generateQuiz(); }, 1500);
+            } else {
+                fb.innerText = "❌ 再試一次"; fb.style.color = "var(--red)"; fb.className = "feedback pop";
+                setTimeout(() => { fb.className = "feedback"; userInput = ""; renderQuiz(); }, 1000);
+            }
+        }
+
         window.onload = initGame;
     </script>
 </body>
