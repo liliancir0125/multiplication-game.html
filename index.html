@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>九九乘法大冒險</title>
+    <title>吉伊卡哇九九乘法學習機</title>
     <style>
         :root {
             --pink: #ffb8d1;
@@ -23,178 +23,56 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: #fff9fb;
             background-image: radial-gradient(var(--pink) 1.5px, transparent 1.5px), 
                               radial-gradient(var(--blue) 1.5px, transparent 1.5px);
             background-size: 40px 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* 頂部導覽列 */
+        /* 頂部控制列 */
         .nav-header {
-            width: 100%;
-            background: white;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            width: 100%; background: white; padding: 10px 15px;
+            display: flex; justify-content: space-between; align-items: center;
             border-bottom: 3px solid var(--pink);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .btn-home {
-            text-decoration: none;
-            background: var(--yellow);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
+            text-decoration: none; background: var(--yellow); padding: 8px 15px;
+            border-radius: 20px; font-weight: bold; font-size: 0.9rem;
             border: 2px solid var(--text);
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
-        .mode-selector {
-            background: var(--pink);
-            padding: 5px;
-            border-radius: 50px;
-            display: flex;
-        }
+        .mode-selector { background: var(--pink); padding: 5px; border-radius: 50px; display: flex; }
+        .mode-tab { padding: 6px 15px; border-radius: 50px; border: none; background: transparent; font-weight: bold; cursor: pointer; }
+        .mode-tab.active { background: var(--white); }
 
-        .mode-tab {
-            padding: 6px 15px;
-            border-radius: 50px;
-            border: none;
-            background: transparent;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .mode-tab.active {
-            background: var(--white);
-        }
-
-        /* 遊戲主卡片 */
         .card {
-            width: 90%;
-            max-width: 400px;
-            background: var(--white);
-            border: 8px solid var(--yellow);
-            border-radius: 40px;
-            padding: 30px 20px;
-            text-align: center;
+            width: 90%; max-width: 400px; background: var(--white);
+            border: 8px solid var(--yellow); border-radius: 40px;
+            padding: 30px 20px; text-align: center; margin-top: 20px;
             box-shadow: 0 10px 20px rgba(255, 184, 209, 0.3);
-            margin-top: 20px;
         }
 
-        .range-select {
-            margin-bottom: 15px;
-            padding: 10px 15px;
-            border-radius: 20px;
-            border: 2px solid var(--pink);
-            font-size: 1rem;
-            outline: none;
-            background: white;
-        }
-
-        .display-area {
-            font-size: 4rem;
-            font-weight: bold;
-            margin: 20px 0;
-            min-height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
+        .display-area { font-size: 3.5rem; font-weight: bold; margin: 20px 0; min-height: 100px; display: flex; justify-content: center; align-items: center; }
         .display-area span { color: var(--blue); }
-        .answer-box {
-            display: inline-block;
-            min-width: 80px;
-            border-bottom: 5px solid var(--pink);
-            color: var(--pink);
-            margin-left: 10px;
-        }
+        .answer-box { display: inline-block; min-width: 80px; border-bottom: 5px solid var(--pink); color: var(--pink); }
 
-        /* 虛擬鍵盤 */
-        .keypad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            width: 90%;
-            max-width: 400px;
-            padding: 20px 10px;
-        }
-
-        .key {
-            background: var(--white);
-            border: 3px solid var(--blue);
-            border-radius: 25px;
-            padding: 15px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 0 var(--blue);
-        }
-
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 90%; max-width: 400px; padding: 20px 0; }
+        .key { background: var(--white); border: 3px solid var(--blue); border-radius: 25px; padding: 15px; font-size: 1.5rem; font-weight: bold; box-shadow: 0 5px 0 var(--blue); }
         .key:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--blue); }
-        .key.special { background: var(--pink); border-color: #e0a0b8; box-shadow: 0 5px 0 #e0a0b8; color: white; }
-        .key.ok { background: var(--yellow); border-color: #f0e68c; box-shadow: 0 5px 0 #f0e68c; }
+        .key.special { background: var(--pink); color: white; border-color: #e0a0b8; }
+        .key.ok { background: var(--yellow); }
 
-        .nav-controls {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            margin-top: 10px;
-        }
+        .nav-controls { display: flex; justify-content: space-around; width: 100%; margin-top: 10px; }
+        .nav-btn { background: var(--blue); color: white; border: none; padding: 12px 25px; border-radius: 30px; font-size: 1.1rem; box-shadow: 0 5px 0 #6eb5d8; }
 
-        .nav-btn {
-            background: var(--blue);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 0 #6eb5d8;
-        }
-
-        .feedback {
-            position: fixed;
-            top: 40%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem;
-            font-weight: bold;
-            pointer-events: none;
-            opacity: 0;
-            z-index: 100;
-        }
-
+        .feedback { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; font-weight: bold; opacity: 0; z-index: 100; }
         .pop { animation: popAnim 0.8s ease-out forwards; }
-        @keyframes popAnim {
-            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
-        }
+        @keyframes popAnim { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; } 50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
 
-        /* 版本號 */
-        .version-tag {
-            position: fixed;
-            bottom: 8px;
-            right: 12px;
-            font-size: 11px;
-            color: var(--text);
-            opacity: 0.5;
-            background: rgba(255,255,255,0.7);
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
+        .version-tag { position: fixed; bottom: 8px; right: 12px; font-size: 11px; opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -208,7 +86,8 @@
     </div>
 
     <div class="card">
-        <select class="range-select" id="rangeSelect" onchange="initGame()">
+        <select class="range-select" id="rangeSelect" onchange="initGame()" style="padding: 10px; border-radius: 20px; border: 2px solid var(--pink);">
+            <option value="1">1 的乘法</option>
             <option value="2">2 的乘法</option>
             <option value="3">3 的乘法</option>
             <option value="4">4 的乘法</option>
@@ -219,9 +98,7 @@
             <option value="9">9 的乘法</option>
             <option value="random">🌟 綜合大挑戰</option>
         </select>
-
         <div class="display-area" id="displayArea"></div>
-
         <div id="reciteControls" class="nav-controls">
             <button class="nav-btn" onclick="prevStep()">上一個</button>
             <button class="nav-btn" onclick="nextStep()">下一個</button>
@@ -244,16 +121,30 @@
     </div>
 
     <div class="feedback" id="feedback"></div>
-    <div class="version-tag">Ver. 1.0.2</div>
+    <div class="version-tag">Ver. 1.1.0</div>
 
     <script>
-        let currentMode = 'recite';
-        let currentNum = 2;
-        let currentStep = 1;
-        let quizA = 2, quizB = 1;
-        let userInput = "";
-
+        let currentMode = 'recite', currentNum = 2, currentStep = 1, quizA = 2, quizB = 1, userInput = "";
+        const praiseWords = ["你真棒！", "太強了！", "一百分！", "好厲害！", "超級優秀！"];
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function speak(text) {
+            const fixedText = text.replace(/×/g, "乘以").replace(/乘/g, "乘");
+            const utterance = new SpeechSynthesisUtterance(fixedText);
+            utterance.lang = 'zh-TW'; utterance.rate = 1.1;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function playDingDong() {
+            const playNote = (freq, start) => {
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(freq, start);
+                gain.gain.setValueAtTime(0.1, start); gain.gain.exponentialRampToValueAtTime(0.01, start + 0.4);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(start); osc.stop(start + 0.4);
+            };
+            playNote(523.25, audioCtx.currentTime); playNote(783.99, audioCtx.currentTime + 0.15);
+        }
 
         function switchMode(mode) {
             currentMode = mode;
@@ -269,56 +160,49 @@
             userInput = "";
             if (currentMode === 'recite') {
                 if (range !== 'random') currentNum = parseInt(range);
-                currentStep = 1;
-                renderRecite();
-            } else {
-                generateQuiz();
-            }
+                currentStep = 1; renderRecite();
+            } else { generateQuiz(); }
         }
 
         function renderRecite() {
             const display = document.getElementById('displayArea');
-            display.innerHTML = `<div>${currentNum} <span>×</span> ${currentStep} = ${currentNum * currentStep}</div>`;
+            const ans = currentNum * currentStep;
+            display.innerHTML = `<div>${currentNum} <span>×</span> ${currentStep} = ${ans}</div>`;
+            speak(`${currentNum} 乘 ${currentStep} 等於 ${ans}`);
         }
 
-        function nextStep() {
-            if (currentStep < 9) { currentStep++; renderRecite(); }
-            else if (document.getElementById('rangeSelect').value === 'random') {
-                currentNum = Math.floor(Math.random() * 8) + 2;
-                currentStep = 1;
-                renderRecite();
-            }
-        }
-
+        function nextStep() { if (currentStep < 9) { currentStep++; renderRecite(); } }
         function prevStep() { if (currentStep > 1) { currentStep--; renderRecite(); } }
 
         function generateQuiz() {
             const range = document.getElementById('rangeSelect').value;
             quizA = (range === 'random') ? Math.floor(Math.random() * 8) + 2 : parseInt(range);
             quizB = Math.floor(Math.random() * 9) + 1;
-            userInput = "";
-            renderQuiz();
+            userInput = ""; renderQuiz();
+            speak(`${quizA} 乘 ${quizB} 等於多少？`);
         }
 
         function renderQuiz() {
-            const display = document.getElementById('displayArea');
-            display.innerHTML = `<div>${quizA} <span>×</span> ${quizB} = <span class="answer-box">${userInput || '?'}</span></div>`;
+            document.getElementById('displayArea').innerHTML = `<div>${quizA} <span>×</span> ${quizB} = <span class="answer-box">${userInput || '?'}</span></div>`;
         }
 
-        function pressNum(n) { if (userInput.length < 2) { userInput += n; renderQuiz(); } }
+        function pressNum(n) { if (userInput.length < 2) { userInput += n; speak(n.toString()); } renderQuiz(); }
 
         function checkAnswer() {
             const correct = quizA * quizB;
             const fb = document.getElementById('feedback');
             if (parseInt(userInput) === correct) {
                 fb.innerText = "⭐ 答對了！"; fb.style.color = "var(--green)"; fb.className = "feedback pop";
-                setTimeout(() => { fb.className = "feedback"; generateQuiz(); }, 1500);
+                playDingDong();
+                setTimeout(() => speak("答對了"), 600);
+                setTimeout(() => speak(praiseWords[Math.floor(Math.random() * praiseWords.length)]), 1400);
+                setTimeout(() => { fb.className = "feedback"; generateQuiz(); }, 2500);
             } else {
                 fb.innerText = "❌ 再試一次"; fb.style.color = "var(--red)"; fb.className = "feedback pop";
-                setTimeout(() => { fb.className = "feedback"; userInput = ""; renderQuiz(); }, 1000);
+                speak("不對喔，再試一次");
+                setTimeout(() => { fb.className = "feedback"; userInput = ""; renderQuiz(); }, 1200);
             }
         }
-
         window.onload = initGame;
     </script>
 </body>
